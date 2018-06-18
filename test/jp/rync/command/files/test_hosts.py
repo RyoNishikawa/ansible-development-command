@@ -3,7 +3,7 @@ import unittest
 import os
 import shutil
 
-from jp.rync.command.project.management import AnsibleProject
+import configparser
 
 class TestHosts(unittest.TestCase):
 
@@ -19,11 +19,14 @@ class TestHosts(unittest.TestCase):
         """
         Add the gourp for hosts.
         """
+        test_file_name = "test_hosts_add_group"
         self._create_blank_file("test_hosts_add_group")
 
-        Hosts().add_group("test_group")
+        InventoryFile(test_file_name).add_group("test_group")
 
         self.assertTrue(os.path.exists("test_hosts_add_group"))
+        with open(test_file_name, 'r') as f:
+            print(f.readline())
 
     def test_delete_gourp(self):
         """
@@ -50,12 +53,27 @@ class TestHosts(unittest.TestCase):
         with open(file_name, 'w') as f: pass
 
 
-class Hosts:
+class InventoryFile:
 
-    _project = None
+    _inventory_file_name = ""
 
-    def __init__(self): pass
+    def __init__(self, inventory_file_name="hosts"):
+        self._inventory_file_name = inventory_file_name
 
     def add_group(self, group_name):
-        with open("hosts", 'w') as f:
+        with open(self._inventory_file_name, 'w') as f:
             f.write("[{0}]".format(group_name))
+
+
+class Group:
+    _group_name = ""
+
+    def __init__(self, group_name):
+        self._group_name = group_name
+
+
+class Host:
+    _host_name = ""
+
+    def __init__(self, host_name):
+        self._host_name = host_name
