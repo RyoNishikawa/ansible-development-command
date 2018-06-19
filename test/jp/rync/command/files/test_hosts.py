@@ -3,8 +3,6 @@ import unittest
 import os
 import shutil
 
-import configparser
-
 class TestHosts(unittest.TestCase):
 
     def setUp(self):
