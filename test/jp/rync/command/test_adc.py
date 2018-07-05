@@ -1,4 +1,5 @@
 import unittest
+import sys
 
 import jp.rync.command.adc
 
@@ -9,8 +10,9 @@ class TestAnsibleDevelopmentCommand(unittest.TestCase):
 
     def tearDown(self): pass
 
-    def test_exec_command_without_params(self):
-        jp.rync.command.adc.main()
+    def test_params_with_init(self):
+        parse = jp.rync.command.adc.AnsibleDevelopmentCommand.parser(['init'])
+        self.assertTrue(parse.init)
 
     def test_help(self): pass
 
