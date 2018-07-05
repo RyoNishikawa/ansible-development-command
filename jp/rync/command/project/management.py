@@ -18,13 +18,13 @@ class AnsibleProject:
         :param project_name: Project name.
         """
 
+        if project_name is "":
+            project_name = "."
         self._is_in_project = os.path.exists(self._PROJECT_FILE_PATH)
         if self._is_in_project:
             with open(self._PROJECT_FILE_PATH, 'r+') as f:
                 project_conf = json.load(f)
                 project_name = project_conf.get("project_name")
-        if project_name == "":
-            raise ValueError("Don't specify project name.")
         self._project_name = project_name
 
     def create_project(self):
