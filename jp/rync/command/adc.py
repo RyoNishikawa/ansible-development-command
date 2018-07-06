@@ -1,7 +1,7 @@
 #!/usr/local/bin/python3
 import sys
 from argparse import ArgumentParser
-from project.management import AnsibleProject
+from jp.rync.command.project.management import AnsibleProject
 
 
 class AnsibleDevelopmentCommand:
@@ -15,10 +15,17 @@ class AnsibleDevelopmentCommand:
             prog='adc',
             description='Ansible Development Command {0}'.format(cls._ANSIBLE_VERSION))
 
-        parser.add_argument(
-            'init',
-            nargs='*',
-            help='Create the directory and few files when specifies this sub command.')
+        subparsers = parser.add_subparsers(help='Sub commands')
+
+        parser_init = subparsers.add_parser('init')
+        parser_init.add_argument('init_project_name', nargs='?')
+
+        parser_roles = subparsers.add_parser('roles')
+        parser_roles.add_argument('-c', '--create', dest='create_role_name')
+        # parser.add_argument(
+        #     'init',
+        #     nargs='*',
+        #     help='Create the directory and few files when specifies this sub command.')
 
         # subparsers = parser.add_subparsers(help='Sub Commands')
         #
