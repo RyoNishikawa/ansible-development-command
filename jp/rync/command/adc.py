@@ -6,7 +6,7 @@ from jp.rync.command.project.management import AnsibleProject
 
 class AnsibleDevelopmentCommand:
 
-    _ANSIBLE_VERSION = "0.1.0"
+    _ANSIBLE_VERSION = "0.3.0"
 
     @classmethod
     def parser(cls):
