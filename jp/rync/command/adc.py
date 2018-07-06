@@ -22,18 +22,6 @@ class AnsibleDevelopmentCommand:
 
         parser_roles = subparsers.add_parser('roles')
         parser_roles.add_argument('-c', '--create', dest='create_role_name')
-        # parser.add_argument(
-        #     'init',
-        #     nargs='*',
-        #     help='Create the directory and few files when specifies this sub command.')
-
-        # subparsers = parser.add_subparsers(help='Sub Commands')
-        #
-        # parser_init = subparsers.add_parser('init', help='Create the project directory and few files.')
-        # parser_init.add_argument(
-        #     "init",
-        #     action='store_true',
-        #     help='Create the directory and few files when specifies this sub command.')
 
         return parser.parse_args()
 
