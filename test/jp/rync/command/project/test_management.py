@@ -1,6 +1,7 @@
 import unittest
 import os
 import shutil
+import json
 
 from jp.rync.command.project.management import AnsibleProject
 
@@ -16,7 +17,8 @@ class TestAnsibleProject(unittest.TestCase):
     def delete_test_files(self):
         test_dirs = [
             'test_project1',
-            'test_project2'
+            'test_project2',
+            'test_project3'
         ]
         for path in test_dirs:
             if os.path.exists(path):
@@ -34,6 +36,10 @@ class TestAnsibleProject(unittest.TestCase):
         self.assertTrue(os.path.exists('test_project1/hosts'))
         self.assertTrue(os.path.exists('test_project1/site.yml'))
         self.assertTrue(os.path.exists('test_project1/.ansible_project/project.json'))
+        with open('test_project1/.ansible_project/project.json', 'r+') as f:
+            project_conf = json.load(f)
+            project_name = project_conf.get("project_name")
+            self.assertEqual(project_name, 'test_project1')
         self.assertEqual(ref, 0)
 
     def test_create_roles(self):
@@ -55,4 +61,23 @@ class TestAnsibleProject(unittest.TestCase):
         self.assertTrue(os.path.exists('test_project2/roles/test_role/vars/main.yml'))
         self.assertEqual(ref, 0)
 
+    def test_create_project_without_argument(self):
+        """
+        This commad should be create the project files when execute it without arguments.
+        """
+        os.mkdir('test_project3')
+        os.chdir('test_project3')
 
+        setup_instance = AnsibleProject('.')
+        ref = setup_instance.create_project()
+
+        os.chdir(os.path.dirname(os.path.abspath(__file__)))
+
+        self.assertTrue(os.path.exists('test_project3/hosts'))
+        self.assertTrue(os.path.exists('test_project3/site.yml'))
+        self.assertTrue(os.path.exists('test_project3/.ansible_project/project.json'))
+        with open('test_project3/.ansible_project/project.json', 'r+') as f:
+            project_conf = json.load(f)
+            project_name = project_conf.get("project_name")
+            self.assertEqual(project_name, 'test_project3')
+        self.assertEqual(ref, 0)

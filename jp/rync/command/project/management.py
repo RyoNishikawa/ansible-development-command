@@ -41,12 +41,15 @@ class AnsibleProject:
 
         if self._project_name == "": return 2
 
-        os.mkdir("{0}".format(self._project_name))
+        if self._project_name is not ".":
+            os.mkdir("{0}".format(self._project_name))
         with open('{0}/hosts'.format(self._project_name), 'w') as writer: pass
         with open('{0}/site.yml'.format(self._project_name), 'w') as writer: writer.write("---")
 
         os.mkdir("{0}/.ansible_project".format(self._project_name))
         with open('{0}/{1}'.format(self._project_name, self._PROJECT_FILE_PATH), 'w') as f:
+            if self._project_name is ".":
+                self._project_name = os.pardir
             json.dump({'project_name': self._project_name}, f)
         return 0
 

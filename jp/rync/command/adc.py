@@ -1,6 +1,7 @@
 #!/usr/local/bin/python3
 import sys
 from argparse import ArgumentParser
+from project.management import AnsibleProject
 
 
 class AnsibleDevelopmentCommand:
@@ -8,10 +9,7 @@ class AnsibleDevelopmentCommand:
     _ANSIBLE_VERSION = "0.1.0"
 
     @classmethod
-    def parser(cls, args):
-
-        if sys.argv:
-            del args[0:]
+    def parser(cls):
 
         parser = ArgumentParser(
             prog='adc',
@@ -30,15 +28,17 @@ class AnsibleDevelopmentCommand:
         #     action='store_true',
         #     help='Create the directory and few files when specifies this sub command.')
 
-        print(args)
-        return parser.parse_args(args)
+        return parser.parse_args()
 
 
 
-def main(args=sys.argv):
-    print(args)
-    params = AnsibleDevelopmentCommand.parser(args)
-    print(params)
+def main():
+    params = AnsibleDevelopmentCommand.parser()
+
+    if params.__contains__('init'):
+        project_name = params.init[1] if len(params.init) >= 2 else ""
+        AnsibleProject(project_name).create_project()
+
     return 0
 
 
