@@ -1,5 +1,6 @@
 import os
 import json
+import re
 
 
 class AnsibleProject:
@@ -49,7 +50,8 @@ class AnsibleProject:
         os.mkdir("{0}/.ansible_project".format(self._project_name))
         with open('{0}/{1}'.format(self._project_name, self._PROJECT_FILE_PATH), 'w') as f:
             if self._project_name is ".":
-                self._project_name = os.pardir
+                m = re.search(r"^.*/(.*)$", os.getcwd())
+                self._project_name = m.group(1)
             json.dump({'project_name': self._project_name}, f)
         return 0
 
