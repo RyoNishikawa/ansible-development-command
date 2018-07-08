@@ -1,7 +1,4 @@
-#!/usr/local/bin/python3
-import sys
 from argparse import ArgumentParser
-from jp.rync.command.project.management import AnsibleProject
 
 
 class AnsibleDevelopmentCommand:
@@ -25,17 +22,3 @@ class AnsibleDevelopmentCommand:
 
         return parser.parse_args()
 
-
-
-def main():
-    params = AnsibleDevelopmentCommand.parser()
-
-    if params.__contains__('init'):
-        project_name = params.init[1] if len(params.init) >= 2 else ""
-        AnsibleProject(project_name).create_project()
-
-    return 0
-
-
-if __name__ == '__main__':
-    sys.exit(main())

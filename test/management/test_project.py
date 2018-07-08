@@ -3,7 +3,7 @@ import os
 import shutil
 import json
 
-from jp.rync.command.project.management import AnsibleProject
+from lib.jp.rync.command.project.management import AnsibleProject
 
 
 class TestAnsibleProject(unittest.TestCase):
