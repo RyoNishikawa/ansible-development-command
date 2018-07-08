@@ -1,7 +1,7 @@
 from argparse import ArgumentParser
 
 
-class AnsibleDevelopmentCommand:
+class CommandParse:
 
     _ANSIBLE_VERSION = "0.3.0"
 

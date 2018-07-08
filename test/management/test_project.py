@@ -3,10 +3,10 @@ import os
 import shutil
 import json
 
-from lib.jp.rync.command.project.management import AnsibleProject
+from lib.adc.management.project import Project
 
 
-class TestAnsibleProject(unittest.TestCase):
+class TestProject(unittest.TestCase):
 
     def setUp(self):
         self.delete_test_files()
@@ -29,7 +29,7 @@ class TestAnsibleProject(unittest.TestCase):
         This command should be create the project directory.
         And then, create hosts and site.yml in project directory.
         """
-        test_instance = AnsibleProject('test_project1')
+        test_instance = Project('test_project1')
         ref = test_instance.create_project()
 
         self.assertTrue(os.path.exists('test_project1'))
@@ -46,11 +46,11 @@ class TestAnsibleProject(unittest.TestCase):
         """
         Create directories and files that need the roles.
         """
-        setup_instance = AnsibleProject('test_project2')
+        setup_instance = Project('test_project2')
         setup_instance.create_project()
 
         os.chdir('test_project2')
-        test_instance = AnsibleProject()
+        test_instance = Project()
         ref = test_instance.create_role('test_role')
 
         os.chdir(os.path.dirname(os.path.abspath(__file__)))
@@ -68,7 +68,7 @@ class TestAnsibleProject(unittest.TestCase):
         os.mkdir('test_project3')
         os.chdir('test_project3')
 
-        setup_instance = AnsibleProject('.')
+        setup_instance = Project('.')
         ref = setup_instance.create_project()
 
         os.chdir(os.path.dirname(os.path.abspath(__file__)))

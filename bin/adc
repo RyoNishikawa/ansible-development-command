@@ -1,17 +1,18 @@
 #!/usr/local/bin/python3
 import sys
-from adc.cli.parse import AnsibleProject
+from lib.adc.management.project import Project
+from lib.adc.cli.parse import CommandParse
 
 
 def main():
-    params = AnsibleDevelopmentCommand.parser()
+    params = CommandParse.parser()
 
     if params.__contains__('init_project_name'):
         project_name = params.init[1] if len(params.init) >= 2 else ""
-        AnsibleProject(project_name).create_project()
+        Project(project_name).create_project()
 
     if params.__contains__('create_role_name') and params.create_role_name is not None:
-        AnsibleProject().create_role(params.create_role_name)
+        Project().create_role(params.create_role_name)
 
     return 0
 

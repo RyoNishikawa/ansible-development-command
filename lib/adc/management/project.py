@@ -3,7 +3,7 @@ import json
 import re
 
 
-class AnsibleProject:
+class Project:
 
     # Project name.
     _project_name = ""
