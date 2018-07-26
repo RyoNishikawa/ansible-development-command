@@ -1,10 +1,18 @@
-from setuptools import setup, find_packages
+try:
+    from setuptools import setup, find_packages
+except ImportError:
+    from distutils.core import setup, find_packages
 
 setup(
-    name='ansible-develop-command',
+    name='ansible-development-command',
     version='0.3.0',
     author='Ryo Nishikawa',
+    author_email='ryo.pg.se@gmail.com',
+    url='https://github.com/RyoNishikawa/',
     description='development command for ansible.',
-    packages=find_packages(exclude=('test')),
+    package_dir={'': 'lib'},
+    packages=find_packages('lib'),
+    #packages=['adc'],
+    scripts=['bin/adc'],
     test_suite='test'
 )
