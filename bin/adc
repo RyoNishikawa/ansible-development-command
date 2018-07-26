@@ -1,0 +1,21 @@
+#!/usr/local/bin/python
+import sys
+from adc.management.project import Project
+from adc.cli.parse import CommandParse
+
+
+def main():
+    params = CommandParse.parser()
+
+    if params.__contains__('init_project_name'):
+        project_name = params.init_project_name if params.init_project_name is not None else ""
+        Project(project_name).create_project()
+
+    if params.__contains__('create_role_name') and params.create_role_name is not None:
+        Project().create_role(params.create_role_name)
+
+    return 0
+
+
+if __name__ == '__main__':
+    sys.exit(main())
