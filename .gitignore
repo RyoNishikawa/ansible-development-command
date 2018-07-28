@@ -1,4 +1,9 @@
 *.iml
 *.ipr
 *.iws
+*.pyc
 .idea/
+*.egg-info
+.eggs/
+build/
+dist/

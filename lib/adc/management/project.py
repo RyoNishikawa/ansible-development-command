@@ -1,8 +1,9 @@
 import os
 import json
+import re
 
 
-class AnsibleProject:
+class Project:
 
     # Project name.
     _project_name = ""
@@ -23,8 +24,10 @@ class AnsibleProject:
             with open(self._PROJECT_FILE_PATH, 'r+') as f:
                 project_conf = json.load(f)
                 project_name = project_conf.get("project_name")
-        if project_name == "":
-            raise ValueError("Don't specify project name.")
+
+        if project_name is "":
+            project_name = "."
+
         self._project_name = project_name
 
     def create_project(self):
@@ -41,12 +44,16 @@ class AnsibleProject:
 
         if self._project_name == "": return 2
 
-        os.mkdir("{0}".format(self._project_name))
+        if self._project_name is not ".":
+            os.mkdir("{0}".format(self._project_name))
         with open('{0}/hosts'.format(self._project_name), 'w') as writer: pass
         with open('{0}/site.yml'.format(self._project_name), 'w') as writer: writer.write("---")
 
         os.mkdir("{0}/.ansible_project".format(self._project_name))
         with open('{0}/{1}'.format(self._project_name, self._PROJECT_FILE_PATH), 'w') as f:
+            if self._project_name is ".":
+                m = re.search(r"^.*/(.*)$", os.getcwd())
+                self._project_name = m.group(1)
             json.dump({'project_name': self._project_name}, f)
         return 0
 
