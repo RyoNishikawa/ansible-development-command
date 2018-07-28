@@ -31,7 +31,6 @@ class TestHosts(unittest.TestCase):
         Delete the gourp for hosts.
         """
 
-
     def test_add_host(self):
         """
         Add the host.
