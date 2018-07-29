@@ -3,6 +3,7 @@ import unittest
 import os
 import shutil
 
+
 class TestHosts(unittest.TestCase):
 
     def setUp(self):
@@ -24,7 +25,10 @@ class TestHosts(unittest.TestCase):
 
         self.assertTrue(os.path.exists("test_hosts_add_group"))
         with open(test_file_name, 'r') as f:
-            print(f.readline())
+            result = f.readlines()
+            print(result)
+
+        self.assertEqual(result[0], "[test_group]")
 
     def test_delete_gourp(self):
         """
@@ -65,12 +69,55 @@ class InventoryFile:
 class Group:
     _group_name = ""
 
+    _hosts = {}
+
     def __init__(self, group_name):
         self._group_name = group_name
 
+    def to_string(self):
+        return "[{0}]".format(self._group_name)
+
 
 class Host:
-    _host_name = ""
+    _host_name = None
 
-    def __init__(self, host_name):
+    _ansible_host = None
+
+    _ansible_ssh_user = None
+
+    _ansible_ssh_pass = None
+
+    _ansible_sudo_pass = None
+
+    _ansible_port = None
+
+    def __init__(
+            self,
+            host_name,
+            ansible_host,
+            ansible_ssh_user,
+            ansible_ssh_pass,
+            ansible_sudo_pass,
+            ansible_port=22,
+    ):
         self._host_name = host_name
+        self._ansible_host = ansible_host
+        self._ansible_ssh_user = ansible_ssh_user
+        self._ansible_ssh_pass = ansible_ssh_pass
+        self._ansible_sudo_pass = ansible_sudo_pass
+        self._ansible_port = ansible_port
+
+    def to_string(self):
+        result = '{0} ' \
+                 'ansible_host="{1}" ' \
+                 'ansible_ssh_user="{2}" ' \
+                 'ansible_ssh_pass="{3}" ' \
+                 'ansible_sudo_pass="{4}" ' \
+                 'ansible_port="{5}"'.format(
+                    self._host_name,
+                    self._ansible_host,
+                    self._ansible_ssh_user,
+                    self._ansible_ssh_pass,
+                    self._ansible_sudo_pass,
+                    self._ansible_port
+                )
