@@ -6,14 +6,14 @@ import re
 class Project:
 
     # Project name.
-    _project_name = ""
+    _project_name: str = ""
 
-    _PROJECT_FILE_PATH = ".ansible_project/project.json"
+    _PROJECT_FILE_PATH: str = ".ansible_project/project.json"
 
     # Check the project existing.
-    _is_in_project = False
+    _is_in_project: bool = False
 
-    def __init__(self, project_name=""):
+    def __init__(self, project_name: str = ""):
         """
         Constructor.
         :param project_name: Project name.
@@ -30,7 +30,7 @@ class Project:
 
         self._project_name = project_name
 
-    def create_project(self):
+    def create_project(self) -> int:
         """
         Create the project directory, hosts file and site.yml.
         Return status code.
@@ -40,9 +40,11 @@ class Project:
           2  : validation failed. (Don't specify project name)
         :return: status code.
         """
-        if self._is_in_project: return 1
+        if self._is_in_project:
+            return 1
 
-        if self._project_name == "": return 2
+        if self._project_name == "":
+            return 2
 
         if self._project_name is not ".":
             os.mkdir("{0}".format(self._project_name))
@@ -57,7 +59,7 @@ class Project:
             json.dump({'project_name': self._project_name}, f)
         return 0
 
-    def create_role(self, role_name):
+    def create_role(self, role_name: str) -> int:
         """
         Create the role directories and main.yml.
         Return status code.
@@ -68,9 +70,11 @@ class Project:
         :param role_name: role name.
         :return: status code.
         """
-        if not self._is_in_project: return 3
+        if not self._is_in_project:
+            return 3
 
-        if role_name == "": return 4
+        if role_name == "":
+            return 4
 
         if not os.path.exists("roles"):
             os.mkdir("roles")
