@@ -53,7 +53,7 @@ class TestProject(unittest.TestCase):
         test_instance = Project()
         ref = test_instance.create_role('test_role')
 
-        os.chdir(os.path.dirname(os.path.abspath(__file__)))
+        os.chdir("..")
 
         self.assertTrue(os.path.exists('test_project2/roles'))
         self.assertTrue(os.path.exists('test_project2/roles/test_role'))
@@ -71,7 +71,7 @@ class TestProject(unittest.TestCase):
         setup_instance = Project('.')
         ref = setup_instance.create_project()
 
-        os.chdir(os.path.dirname(os.path.abspath(__file__)))
+        os.chdir('..')
 
         self.assertTrue(os.path.exists('test_project3/hosts'))
         self.assertTrue(os.path.exists('test_project3/site.yml'))
