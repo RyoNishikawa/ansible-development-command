@@ -3,7 +3,7 @@ import os
 import shutil
 import json
 
-from lib.adc.management.project import Project
+from adc.services.management.project import Project
 
 
 class TestProject(unittest.TestCase):
