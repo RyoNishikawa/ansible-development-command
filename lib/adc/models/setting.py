@@ -32,16 +32,13 @@ class ProjectConfig:
         _DICT_KEY_PROJECT_INVENTORY_FILE_PATH: _DICT_VALUE_PROJECT_INVENTORY_FILE_PATH
     }
 
-    project_name: str
-    global_inventory_file_path: str
-    project_inventory_file_path: str
+    items: Dict[str, str]
 
     @classmethod
     def load(cls):
         if os.path.exists(cls._FIX_PARAMETER_BASE_DIRECTORY_PATH):
             with open(cls._FIX_PARAMETER_BASE_DIRECTORY_PATH, 'r+') as f:
-                project_conf = json.load(f)
-                cls.project_name = project_conf.get(cls._DICT_KEY_PROJECT_NAME)
+                cls.items = json.load(f)
 
     @classmethod
     def generate(cls, project_name: str):
@@ -55,4 +52,14 @@ class ProjectConfig:
             if project_name is '.':
                 m = re.search(r'^.*/(.*)$', os.getcwd())
                 project_name = m.group(1)
-            json.dump({cls._DICT_KEY_PROJECT_NAME: project_name}, f)
+            default_settings = {cls._DICT_KEY_PROJECT_NAME: project_name}
+            default_settings.update(cls._PROJECT_CONFIG_DICT_FOR_GENERATE)
+            json.dump(default_settings, f)
+
+    @classmethod
+    def get(cls, key: str) -> str:
+        return cls.items.get(key)
+
+    @classmethod
+    def items(cls) -> Dict[str, str]:
+        return cls.items
