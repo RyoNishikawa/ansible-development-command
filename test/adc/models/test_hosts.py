@@ -5,7 +5,7 @@ import os
 # import logging.config
 from logging import getLogger
 
-from adc.models.hosts import InventoryFile
+from adc.models.inventory import InventoryFile
 
 
 class TestHosts(unittest.TestCase):
