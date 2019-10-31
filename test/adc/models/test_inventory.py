@@ -2,13 +2,13 @@ import unittest
 
 import os
 
-# import logging.config
 from logging import getLogger
 
 from adc.models.inventory import InventoryFile
+from test.util.file import TestFile
 
 
-class TestHosts(unittest.TestCase):
+class TestInventory(unittest.TestCase):
     logger = getLogger("test")
 
     file_name_test_hosts_add_group = "test_hosts_add_group"
@@ -16,33 +16,25 @@ class TestHosts(unittest.TestCase):
     file_name_test_hosts_read_hosts = "test_hosts_read_hosts"
     file_name_test_hosts_read_hosts_with_two_hosts = "test_hosts_read_hosts_with_two_hosts"
 
+    files = [
+        file_name_test_hosts_add_group,
+        file_name_test_hosts_add_host,
+        file_name_test_hosts_read_hosts,
+        file_name_test_hosts_read_hosts_with_two_hosts
+    ]
+
     def setUp(self):
         # logging.config.fileConfig("../resources/logger.conf")
-        self.delete_test_files()
-        pass
+        TestFile.delete_files(self.files)
 
     def tearDown(self):
-        self.delete_test_files()
-        pass
-
-    def delete_test_files(self):
-        files = [
-            self.file_name_test_hosts_add_group,
-            self.file_name_test_hosts_add_host,
-            self.file_name_test_hosts_read_hosts,
-            self.file_name_test_hosts_read_hosts_with_two_hosts
-        ]
-        for file_name in files:
-            self._delete_file(file_name)
-
-    # os.chdir("..")
-    # shutil.rmtree("tmp")
+        TestFile.delete_files(self.files)
 
     def test_add_group(self):
         """
         Add the gourp for hosts.
         """
-        self._create_blank_file(self.file_name_test_hosts_add_group)
+        TestFile.create_blank_file(self.file_name_test_hosts_add_group)
 
         InventoryFile(self.file_name_test_hosts_add_group).add_group("test_group")
 
@@ -62,7 +54,7 @@ class TestHosts(unittest.TestCase):
         """
         Add the host.
         """
-        self._create_blank_file(self.file_name_test_hosts_add_host)
+        TestFile.create_blank_file(self.file_name_test_hosts_add_host)
         #
         InventoryFile(self.file_name_test_hosts_add_host).add_host(
             "test_group",
@@ -99,7 +91,7 @@ class TestHosts(unittest.TestCase):
         """
         Read the data in the hosts file.
         """
-        self._create_blank_file(self.file_name_test_hosts_read_hosts)
+        TestFile.create_blank_file(self.file_name_test_hosts_read_hosts)
         with open(self.file_name_test_hosts_read_hosts, 'w') as f:
             f.write('\n'.join([
                 "[test_group]",
@@ -126,7 +118,7 @@ class TestHosts(unittest.TestCase):
         """
         Read the data in the hosts file.
         """
-        self._create_blank_file(self.file_name_test_hosts_read_hosts_with_two_hosts)
+        TestFile.create_blank_file(self.file_name_test_hosts_read_hosts_with_two_hosts)
         with open(self.file_name_test_hosts_read_hosts_with_two_hosts, 'w') as f:
             for line in ["[test_group]\n",
                          "test01 ansible_host=192.168.1.10 ansible_user=testuser ansible_password=testuserpass ansible_become_password=testuserpass ansible_port=22\n",
@@ -152,10 +144,3 @@ class TestHosts(unittest.TestCase):
         self.assertEqual(result.hosts_data['test_group2'].hosts[0].option_ansible_password, "testuserpass2")
         self.assertEqual(result.hosts_data['test_group2'].hosts[0].option_ansible_become_password, "testuserpass2")
         self.assertEqual(result.hosts_data['test_group2'].hosts[0].option_ansible_port, "23")
-
-    def _create_blank_file(self, file_name: str):
-        with open(file_name, 'w') as f: pass
-
-    def _delete_file(self, file_name: str):
-        if os.path.exists(file_name):
-            os.remove(file_name)

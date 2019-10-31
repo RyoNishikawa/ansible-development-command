@@ -4,6 +4,7 @@ import shutil
 import json
 
 from adc.services.management.project import Project
+from test.util.file import TestFile
 
 
 class TestProject(unittest.TestCase):
@@ -20,9 +21,7 @@ class TestProject(unittest.TestCase):
             'test_project2',
             'test_project3'
         ]
-        for path in test_dirs:
-            if os.path.exists(path):
-                shutil.rmtree(path)
+        TestFile.delete_directories(test_dirs)
 
     def test_create_project(self):
         """
