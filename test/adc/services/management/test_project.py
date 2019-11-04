@@ -1,6 +1,5 @@
 import unittest
 import os
-import shutil
 import json
 
 from adc.services.management.project import Project
