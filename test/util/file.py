@@ -8,7 +8,13 @@ class TestFile:
 
     @staticmethod
     def create_blank_file(file_name: str):
-        with open(file_name, 'w') as f: pass
+        if not os.path.exists(file_name):
+            with open(file_name, 'w') as f: pass
+
+    @staticmethod
+    def create_blank_directory(directory_name: str):
+        if not os.path.exists(directory_name):
+            os.mkdir(directory_name)
 
     @staticmethod
     def delete_file(file_name: str):
