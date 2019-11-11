@@ -151,3 +151,22 @@ class TestInventory(unittest.TestCase):
             self.assertEqual(result.hosts_data['test_group2'].hosts[0].option_ansible_password, "testuserpass2")
             self.assertEqual(result.hosts_data['test_group2'].hosts[0].option_ansible_become_password, "testuserpass2")
             self.assertEqual(result.hosts_data['test_group2'].hosts[0].option_ansible_port, "23")
+
+    # def test_inv(self):
+    #     with tempfile.TemporaryDirectory() as td:
+    #         os.chdir(td)
+    #         TestFile.create_blank_file(self.file_name_test_hosts_read_hosts_with_two_hosts)
+    #         with open(self.file_name_test_hosts_read_hosts_with_two_hosts, 'w') as f:
+    #             for line in ["[test_group]\n",
+    #                          "test01 ansible_host=192.168.1.10 ansible_user=testuser ansible_password=testuserpass ansible_become_password=testuserpass ansible_port=22\n",
+    #                          "[test_group2]\n",
+    #                          "test02 ansible_host=192.168.1.11 ansible_user=testuser2 ansible_password=testuserpass2 ansible_become_password=testuserpass2 ansible_port=23"]:
+    #                 f.write(line)
+    #
+    #         result = InventoryFile(self.file_name_test_hosts_read_hosts_with_two_hosts)
+    #         result.read_hosts()
+    #
+    #         print(result)
+    #
+    #         self.assertTrue(True)
+

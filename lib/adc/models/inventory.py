@@ -170,6 +170,8 @@ class Group:
 
     def __str__(self):
         result = "[{0}]\n".format(self._group_name)
+        for host in self.hosts:
+            result += str(host)
         return result
 
     def append_host(self, host: Host):
@@ -230,5 +232,8 @@ class InventoryFile:
                 else:
                     self.hosts_data[group_name].append_host(Host.parser(line))
 
-    # def __str__(self):
-    #     pass
+    def __str__(self):
+        result: str = ''
+        for group in self.hosts_data.values():
+            result += str(group)
+        return result
