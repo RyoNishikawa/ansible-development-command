@@ -2,6 +2,7 @@ import re
 from typing import List, Dict
 
 
+# TODO Interpreterについて実装する
 class Interpreter:
     type_str: str
     value: str
@@ -228,3 +229,6 @@ class InventoryFile:
                     self.append_group(group_name)
                 else:
                     self.hosts_data[group_name].append_host(Host.parser(line))
+
+    # def __str__(self):
+    #     pass

@@ -1,6 +1,7 @@
 import os
 import json
-import re
+
+from adc.models.setting import ProjectConfig
 
 
 class Project:
@@ -51,12 +52,7 @@ class Project:
         with open('{0}/hosts'.format(self._project_name), 'w') as writer: pass
         with open('{0}/site.yml'.format(self._project_name), 'w') as writer: writer.write("---")
 
-        os.mkdir("{0}/.ansible_project".format(self._project_name))
-        with open('{0}/{1}'.format(self._project_name, self._PROJECT_FILE_PATH), 'w') as f:
-            if self._project_name is ".":
-                m = re.search(r"^.*/(.*)$", os.getcwd())
-                self._project_name = m.group(1)
-            json.dump({'project_name': self._project_name}, f)
+        ProjectConfig.generate(self._project_name)
         return 0
 
     def create_role(self, role_name: str) -> int:
