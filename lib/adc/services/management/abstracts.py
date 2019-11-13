@@ -6,8 +6,9 @@ class List(metaclass=ABCMeta):
     def __init__(self):
         pass
 
-    def list(self):
-        print(self)
+    def list(self) -> int:
+        print(self.__str__())
+        return 0
 
     def __str__(self):
         return "No implementation this method."
