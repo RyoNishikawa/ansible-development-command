@@ -22,17 +22,17 @@ class TestAnsibleDevelopmentCommand(unittest.TestCase):
         print(params)
         self.assertEqual(params.init_project_name, 'test_project')
 
-    def test_roles_subcommand_with_create_option(self):
-        sys.argv = ['adc', 'roles', '--create', 'test_role']
+    def test_list_subcommand_with_hosts_subcommand(self):
+        sys.argv = ['adc', 'list', 'hosts']
         params = CommandParse.parser()
         print(params)
-        self.assertEqual(params.create_role_name, 'test_role')
+        self.assertEqual(params.list_hosts, True)
 
-    def test_roles_subcommand_with_create_omit_option(self):
-        sys.argv = ['adc', 'roles', '-c', 'test_role']
+    def test_create_subcommand_with_roles_subcommand(self):
+        sys.argv = ['adc', 'create', 'roles', 'test_role']
         params = CommandParse.parser()
         print(params)
-        self.assertEqual(params.create_role_name, 'test_role')
+        self.assertEqual(params.create_role_name, ['test_role'])
 
     def test_roles_subcommand_with_create_option_with_vars_option(self): pass
 

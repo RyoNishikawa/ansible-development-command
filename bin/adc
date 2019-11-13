@@ -1,16 +1,26 @@
-#!/usr/local/bin/python
+#!/usr/local/bin/python3
 import sys
-from adc.management.project import Project
+from adc.services.management.project import Project
+from adc.services.management.inventory import Inventory
 from adc.cli.parse import CommandParse
 
 
 def main():
     params = CommandParse.parser()
 
+    ####################################################################################################
+    # init sub command
     if params.__contains__('init_project_name'):
         project_name = params.init_project_name if params.init_project_name is not None else ""
         Project(project_name).create_project()
 
+    ####################################################################################################
+    # list sub command
+    if params.__contains__('list_hosts') and params.list_hosts is not None:
+        Inventory().list()
+
+    ####################################################################################################
+    # create sub command
     if params.__contains__('create_role_name') and params.create_role_name is not None:
         Project().create_role(params.create_role_name)
 
