@@ -62,7 +62,7 @@ class TestProject(unittest.TestCase):
             print(os.getcwd())
             os.chdir(self.file_name_test_create_roles)
             test_instance = Project()
-            ref = test_instance.create_role('test_role')
+            ref = test_instance.create_role(['test_role'])
 
             os.chdir("..")
 

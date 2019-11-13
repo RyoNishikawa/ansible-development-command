@@ -1,6 +1,8 @@
 import os
 import json
 
+from typing import List
+
 from adc.models.setting import ProjectConfig
 
 
@@ -55,7 +57,7 @@ class Project:
         ProjectConfig.generate(self._project_name)
         return 0
 
-    def create_role(self, role_name: str) -> int:
+    def create_role(self, role_name_list: List[str]) -> int:
         """
         Create the role directories and main.yml.
         Return status code.
@@ -63,15 +65,22 @@ class Project:
           0  : success
           3  : validation failed. (Don't exists ansible project file.)
           4  : validation failed. (Don't specify role name.)
-        :param role_name: role name.
+        :param role_name_list: role name list.
         :return: status code.
         """
         if not self._is_in_project:
             return 3
 
-        if role_name == "":
+        if len(role_name_list) == 0:
             return 4
 
+        for role_name in role_name_list:
+            Project.generate_role_files(role_name)
+
+        return 0
+
+    @staticmethod
+    def generate_role_files(role_name):
         if not os.path.exists("roles"):
             os.mkdir("roles")
         os.mkdir("roles/{0}".format(role_name))
@@ -81,4 +90,3 @@ class Project:
         os.mkdir("roles/{0}/files".format(role_name))
         with open('roles/{0}/tasks/main.yml'.format(role_name), 'w') as writer: writer.write("---")
         with open('roles/{0}/vars/main.yml'.format(role_name), 'w') as writer: writer.write("---")
-        return 0
